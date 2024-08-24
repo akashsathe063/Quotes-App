@@ -1,5 +1,6 @@
 package com.example.quotes.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,11 +25,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.quotes.DataManager
 import com.example.quotes.R
+import com.example.quotes.models.Quote
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
-fun QuoteDetail(modifier: Modifier = Modifier) {
+fun QuoteDetail(modifier: Modifier = Modifier,quote: Quote) {
+    BackHandler {
+        DataManager.switchPages(null)
+    }
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -59,17 +65,21 @@ fun QuoteDetail(modifier: Modifier = Modifier) {
                         .rotate(180f)
                 )
 
-                Text(
-                    text = "Time is a most valuable thing a man can spend. ",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
-                )
+                quote.text?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+                    )
+                }
                 Spacer(modifier = Modifier.padding(16.dp))
-                Text(
-                    text = "Theophrastus",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = FontFamily(Font(R.font.montserrat_regular))
-                )
+                quote.author?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontFamily = FontFamily(Font(R.font.montserrat_regular))
+                    )
+                }
             }
         }
 

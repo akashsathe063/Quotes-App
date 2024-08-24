@@ -2,6 +2,7 @@ package com.example.quotes.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,18 +23,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quotes.R
+import com.example.quotes.models.Quote
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
-fun QuoteListItem(modifier: Modifier = Modifier) {
+fun QuoteListItem(modifier: Modifier = Modifier,quote:Quote,onClick:  (quote:Quote)->Unit) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = modifier.padding(8.dp)
+        modifier = modifier
+            .padding(8.dp)
+            .clickable {
+                onClick(quote)
+            }
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
@@ -50,13 +55,15 @@ fun QuoteListItem(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.padding(4.dp))
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Time is a most valuable thing a man can spend. ",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp),
-                    color = Color.Black
-                )
+                quote.text?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp),
+                        color = Color.Black
+                    )
+                }
 
                 Box(
                     modifier = Modifier
@@ -67,13 +74,15 @@ fun QuoteListItem(modifier: Modifier = Modifier) {
 
                 }
 
-                Text(
-                    text = "Theophrastus",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Thin,
-                    modifier = Modifier.padding(top = 4.dp),
-                    color = Color.Black
-                )
+                quote.author?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Thin,
+                        modifier = Modifier.padding(top = 4.dp),
+                        color = Color.Black
+                    )
+                }
             }
 
         }
